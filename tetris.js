@@ -1,5 +1,6 @@
 'use strict';
 var canvas = $('#mainView')[0];
+var dummy = '';
 
 var context = canvas.getContext('2d');
 var BASE_SIZE = 40;
