@@ -3,52 +3,47 @@ var canvas = $('#mainView')[0];
 var dummy = '';
 
 var context = canvas.getContext('2d');
-var BASE_SIZE = 40;
-context.globalCompositeOperation = 'copy';
-context.strokeStyle='blue';
 
-var drawIShape = function(c) {
-	c.beginPath();
-	c.moveTo(0, BASE_SIZE);
-	c.lineTo(BASE_SIZE, BASE_SIZE);
-	c.strokeStyle = 'blue';
-	c.moveTo(0, 2*BASE_SIZE);
-	c.lineTo(BASE_SIZE, 2*BASE_SIZE);
-	c.moveTo(0, 3*BASE_SIZE);
-	c.lineTo(BASE_SIZE, 3*BASE_SIZE);
+var shapes = [];
 
-	c.moveTo(0, 0);
-	c.lineTo(0, 4*BASE_SIZE);
-	c.lineTo(BASE_SIZE, 4*BASE_SIZE);
-	c.lineTo(BASE_SIZE, 0);
-	c.closePath();
-	c.stroke();
+// draw initial line
+var ishape = new IShape(context, 0, 0, 0, 2);
+shapes.push(ishape);
+
+var tshape = new TShape(context, 160, 0, 0, 4);
+shapes.push(tshape);
+
+var square = new SquareShape(context, 0, 50, 1, 1);
+//shapes.push(square);
+
+var leftL = new LeftLShape(context, 50, 50, 0, 4);
+//shapes.push(leftL);
+
+var rightL = new RightLShape(context, 0, 100, 0, 4);
+//shapes.push(rightL);
+
+var leftZ = new LeftZShape(context, 50, 100, 0, 2);
+//shapes.push(leftZ);
+
+var rightZ = new RightZShape(context, 0, 150, 0, 2);
+//shapes.push(rightZ);
+
+var drawView = function() {
+	for(var i = 0; i < shapes.length; i++) {
+		shapes[i].draw();
+	}
 };
 
-var iShape1 = function(ctx, x, y) {
-	ctx.save();
-	ctx.translate(x, y);
-	drawIShape(ctx);
-	ctx.restore(ctx);
+var clearView = function() {
+	context.clearRect(0, 0, WIDTH, HEIGHT);
 };
 
-var iShape2 = function(ct, x, y) {
-	ct.strokeStyle = 'rgb(0,0,0,)';
-	iShape1(ct, x, y);
-	ct.strokeStyle='blue';
-	ct.save();
-	ct.translate(x + 2*BASE_SIZE, y + 2*BASE_SIZE);
-	ct.rotate(Math.PI/2);
-	drawIShape(ct);
-	ct.restore();
-}
-
-var ishape = iShape1(context, 200, 0);
+drawView();
 
 $(document).keydown(function(event) {
+	clearView();
 	var keyCode = event.which;
-
-	if(keyCode == 37 || keyCode == 39) {
-		iShape2(context, 200, 0);
-	}
+	var last = shapes[shapes.length-1];
+	last.keyDownHandler(keyCode);
+	drawView();
 });
