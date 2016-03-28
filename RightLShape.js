@@ -1,17 +1,12 @@
 'use strict';
 
 class RightLShape extends Shape {
-	constructor(context, x, y, state, actionByState) {
-		super(context, x, y, state, null);
-		this.actionByState = {
-			0: 'drawDown',
-			1: 'drawLeft',
-			2: 'drawUp',
-			3: 'drawRight'
-		}
+	constructor(context, x, y, state, numStates) {
+		super(context, x, y, state, numStates);
 	}
 
 	drawDownBasic() {
+		this.c.strokeStyle = COLOR_4;
 		this.c.beginPath();
 		this.c.moveTo(BASE_SIZE, 0);
 		this.c.lineTo(BASE_SIZE, BASE_SIZE);
@@ -32,9 +27,10 @@ class RightLShape extends Shape {
 	};
 
 	drawLeftBasic() {
+		this.c.strokeStyle = COLOR_4;
 		this.c.beginPath();
 		this.c.moveTo(BASE_SIZE, BASE_SIZE);
-		this.c.lineTo(BASE_SIZE, BASE_SIZE);
+		this.c.lineTo(2*BASE_SIZE, BASE_SIZE);
 		this.c.moveTo(BASE_SIZE, 2*BASE_SIZE);
 		this.c.lineTo(2*BASE_SIZE, 2*BASE_SIZE);
 
@@ -52,6 +48,7 @@ class RightLShape extends Shape {
 	};
 
 	drawUpBasic() {
+		this.c.strokeStyle = COLOR_4;
 		this.c.beginPath();
 		this.c.moveTo(2*BASE_SIZE, BASE_SIZE);
 		this.c.lineTo(2*BASE_SIZE, 0);
@@ -73,6 +70,7 @@ class RightLShape extends Shape {
 	}
 
 	drawRightBasic() {
+		this.c.strokeStyle = COLOR_4;
 		this.c.beginPath();
 		this.c.beginPath();
 		this.c.moveTo(0, BASE_SIZE);
@@ -96,7 +94,7 @@ class RightLShape extends Shape {
 
 	drawDown() {
 		this.c.save();
-		this.c.translate(x, y);
+		this.c.translate(this.x, this.y);
 		this.drawDownBasic();
 		this.c.restore();
 
@@ -105,7 +103,7 @@ class RightLShape extends Shape {
 
 	drawLeft() {
 		this.c.save();
-		this.c.translate(x, y);
+		this.c.translate(this.x, this.y);
 		this.drawLeftBasic();
 		this.c.restore();
 
@@ -114,7 +112,7 @@ class RightLShape extends Shape {
 
 	drawUp() {
 		this.c.save();
-		this.translate(x, y);
+		this.c.translate(this.x, this.y);
 		this.drawUpBasic();
 		this.c.restore();
 
@@ -123,7 +121,7 @@ class RightLShape extends Shape {
 
 	drawRight() {
 		this.c.save();
-		this.c.translate(x, y);
+		this.c.translate(this.x, this.y);
 		this.drawRightBasic();
 		this.c.restore();
 

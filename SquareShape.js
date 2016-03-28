@@ -1,45 +1,36 @@
 'use strict';
 
-var squareShape = function(ctx, x, y) {
-	this.x = x;
-	this.y = y;
-	this.c = ctx;
-	var self = this;
+class SquareShape extends Shape {
+	constructor(context, x, y, state, numStates) {
+		super(context, x, y, state, numStates);
+	}
 
-	this.drawBasic = function() {
-		self.c.beginPath();
-		self.c.moveTo(0, BASE_SIZE);
-		self.c.lineTo(2*BASE_SIZE, BASE_SIZE);
+	drawBasic() {
+		this.c.strokeStyle = COLOR_6;
+		this.c.beginPath();
+		this.c.moveTo(0, BASE_SIZE);
+		this.c.lineTo(2*BASE_SIZE, BASE_SIZE);
 
-		self.c.moveTo(BASE_SIZE, 0);
-		self.c.lineTo(BASE_SIZE, 2*BASE_SIZE);
+		this.c.moveTo(BASE_SIZE, 0);
+		this.c.lineTo(BASE_SIZE, 2*BASE_SIZE);
 
-		self.c.moveTo(0, 0);
-		self.c.lineTo(0, 2*BASE_SIZE);
+		this.c.moveTo(0, 0);
+		this.c.lineTo(0, 2*BASE_SIZE);
 
-		self.c.lineTo(2*BASE_SIZE, 2*BASE_SIZE);
-		self.c.lineTo(2*BASE_SIZE, 0);
-		self.c.closePath();
-		self.c.stroke();
-	};
+		this.c.lineTo(2*BASE_SIZE, 2*BASE_SIZE);
+		this.c.lineTo(2*BASE_SIZE, 0);
+		this.c.closePath();
+		this.c.stroke();
+	}
 
-	this.draw = function() {
-		self.c.save();
-		self.c.translate(x, y);
-		self.c.drawBasic();
-		self.c.restore();
-	};
+	draw() {
+		this.c.save();
+		this.c.translate(this.x, this.y);
+		this.drawBasic();
+		this.c.restore();
+	}
 
-	this.keyDownHandler = function(keyCode) {
-		var x = self.x;
-		var y = self.y;
-
-		if (keyCode == 37) {	// left arrow
-			self.x = self.x - BASE_SIZE;
-		} else if (keyCode == 39) {	// right arrow
-			self.x = self.x + BASE_SIZE;
-		} else if (keyCode == 40) {	// down arrow
-			self.y = self.y + BASE_SIZE;
-		}
-	};
-}
+	upArrowHandler(x, y) {
+		//not supporting this
+	}
+};

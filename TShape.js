@@ -1,15 +1,12 @@
+'use strict';
+
 class TShape extends Shape {
-	constructor(context, x, y, state, actionByState) {
-		super(context, x, y, state);
-		this.actionByState = {
-			0: 'drawDown',
-			1: 'drawLeft',
-			2: 'drawUp',
-			3: 'drawRight'
-		}
+	constructor(context, x, y, state, numStates) {
+		super(context, x, y, state, numStates);
 	}
 
 	drawDownBasic() {
+		this.c.strokeStyle = COLOR_7;
 		this.c.moveTo(0, 0);
 		this.c.lineTo(0, BASE_SIZE);
 		this.c.lineTo(3*BASE_SIZE, BASE_SIZE);
@@ -24,6 +21,7 @@ class TShape extends Shape {
 	}
 
 	drawLeftBasic() {
+		this.c.strokeStyle = COLOR_7;
 		this.c.moveTo(BASE_SIZE, 0);
 		this.c.lineTo(BASE_SIZE, 3*BASE_SIZE);
 		this.c.lineTo(2*BASE_SIZE, 3*BASE_SIZE);
@@ -38,6 +36,7 @@ class TShape extends Shape {
 	}
 
 	drawUpBasic() {
+		this.c.strokeStyle = COLOR_7;
 		this.c.moveTo(0, BASE_SIZE);
 		this.c.lineTo(0, 2*BASE_SIZE);
 		this.c.lineTo(3*BASE_SIZE, 2*BASE_SIZE);
@@ -52,6 +51,7 @@ class TShape extends Shape {
 	}
 
 	drawRightBasic() {
+		this.c.strokeStyle = COLOR_7;
 		this.c.moveTo(0, 0);
 		this.c.lineTo(0, 3*BASE_SIZE);
 		this.c.lineTo(BASE_SIZE, 3*BASE_SIZE);

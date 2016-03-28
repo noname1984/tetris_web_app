@@ -1,39 +1,64 @@
+'use strict';
+
 class Shape {
-	constructor(context, x, y, state, actionByState) {
+	constructor(context, x, y, state, numStates) {
 		this.c = context;
 		this.x = x;
 		this.y = y;
 		this.state = state;
-		this.actionByState = actionByState;
+		this.numStates = numStates;
 	}
 
 	get x() {
-		return this.x;
+		return this._x;
 	}
 
 	set x(xVal) {
-		this.x = xVal;
+		this._x = xVal;
 	}
 
 	get y() {
-		return this.y;
+		return this._y;
 	}
 
 	set y(yVal) {
-		this.y = yVal;
+		this._y = yVal;
 	}
 
 	get state() {
-		return this.state;
+		return this._state;
 	}
 
 	set state(stateVal) {
-		this.state = stateVal;
+		this._state = stateVal;
 	}
 
 	draw() {
-		var action = this.actionByState[this.state];
-		this[action]();
+		if (this.numStates == 4) {
+			switch(this.state) {
+				case 0:
+					this.drawDown();
+					break;
+				case 1:
+					this.drawLeft();
+					break;
+				case 2:
+					this.drawUp();
+					break;
+				case 3:
+					this.drawRight();
+					break;
+			}
+		} else if (this.numStates == 2) {
+			switch(this.state) {
+				case 0:
+					this.horizontal();
+					break;
+				case 1:
+					this.vertical();
+					break;
+			}
+		}
 	}
 
 	upArrowHandler() {
@@ -53,5 +78,5 @@ class Shape {
 		} else if (keyCode == 40) {	// down arrow
 			this.y = y + BASE_SIZE;
 		}
-	};
+	}
 }

@@ -1,15 +1,12 @@
 'use strict';
 
 class IShape extends Shape {
-	constructor(context, x, y, state, actionByState) {
-		super(context, x, y, state, null);
-		this.actionByState = {
-			0: 'horizontal',
-			1: 'vertical'
-		};
+	constructor(context, x, y, state, numStates) {
+		super(context, x, y, state, numStates);
 	}
 
 	drawVerticalBasic() {
+		this.c.strokeStyle = COLOR_1;
 		this.c.beginPath();
 		this.c.moveTo(0, BASE_SIZE);
 		this.c.lineTo(BASE_SIZE, BASE_SIZE);
@@ -27,6 +24,7 @@ class IShape extends Shape {
 	}
 
 	drawHorizontalBasic() {
+		this.c.strokeStyle = COLOR_1;
 		this.c.beginPath();
 		this.c.moveTo(BASE_SIZE, 0);
 		this.c.lineTo(BASE_SIZE, BASE_SIZE);
