@@ -6,6 +6,6 @@ const COLOR_4 = '#00bfff';
 const COLOR_5 = '#006400';
 const COLOR_6 = '#cd5c5c';
 const COLOR_7 = '#d02090';
-const WIDTH = 400;
-const HEIGHT = 600;
-
+const WIDTH = 440;
+const HEIGHT = 660;
+const PADDING = 4;

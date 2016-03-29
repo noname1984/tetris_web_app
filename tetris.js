@@ -7,26 +7,26 @@ var context = canvas.getContext('2d');
 var shapes = [];
 
 // draw initial line
-var ishape = new IShape(context, 0, 0, 0, 2);
-shapes.push(ishape);
+var ishape = new IShape(context, 2, 2, 160, 40, 0, 2);
+//shapes.push(ishape);
 
-var tshape = new TShape(context, 160, 0, 0, 4);
-shapes.push(tshape);
+var tshape = new TShape(context, 2, 2, 120, 80, 0, 4);
+//shapes.push(tshape);
 
-var square = new SquareShape(context, 0, 50, 1, 1);
+var square = new SquareShape(context, 2, 2, 80, 80, 1, 1);
 //shapes.push(square);
 
-var leftL = new LeftLShape(context, 50, 50, 0, 4);
+var leftL = new LeftLShape(context, 2, 2, 120, 80, 0, 4);
 //shapes.push(leftL);
 
-var rightL = new RightLShape(context, 0, 100, 0, 4);
+var rightL = new RightLShape(context, 2, 2, 120, 80, 0, 4);
 //shapes.push(rightL);
 
-var leftZ = new LeftZShape(context, 50, 100, 0, 2);
+var leftZ = new LeftZShape(context, 178, 2, 120, 80, 0, 2);
 //shapes.push(leftZ);
 
-var rightZ = new RightZShape(context, 0, 150, 0, 2);
-//shapes.push(rightZ);
+var rightZ = new RightZShape(context, 178, 2, 120, 80, 0, 2);
+shapes.push(rightZ);
 
 var drawView = function() {
 	for(var i = 0; i < shapes.length; i++) {
