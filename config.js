@@ -9,3 +9,5 @@ const COLOR_7 = '#d02090';
 const WIDTH = 440;
 const HEIGHT = 660;
 const PADDING = 4;
+const START_X = 178;
+const START_Y = 2;

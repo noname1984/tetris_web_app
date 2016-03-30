@@ -1,36 +1,36 @@
 'use strict';
 
 class RightLShape extends Shape {
-	constructor(context, x, y, width, height, state, numStates) {
-		super(context, x, y, width, height, state, numStates);
+	constructor(context, x, y, width, height, state, numStates, unitArr) {
+		super(context, x, y, width, height, state, numStates, unitArr);
 	}
 
 	drawDownBasic() {
-		super.drawUnit(0, 0, COLOR_4);
-		super.drawUnit(BASE_SIZE + 4, 0, COLOR_4);
-		super.drawUnit(2*(BASE_SIZE + 4), 0, COLOR_4);
-		super.drawUnit(0, BASE_SIZE + 4, COLOR_4);
+		this.unitArr[0].draw(0, 0, this.x, this.y);
+		this.unitArr[1].draw(BASE_SIZE + 4, 0, this.x, this.y);
+		this.unitArr[2].draw(2*(BASE_SIZE + 4), 0, this.x, this.y);
+		this.unitArr[3].draw(0, BASE_SIZE + 4, this.x, this.y);
 	};
 
 	drawLeftBasic() {
-		super.drawUnit(BASE_SIZE + 4, 0, COLOR_4);
-		super.drawUnit(BASE_SIZE + 4, BASE_SIZE + 4, COLOR_4);
-		super.drawUnit(BASE_SIZE + 4, 2*(BASE_SIZE + 4), COLOR_4);
-		super.drawUnit(0, 0, COLOR_4);
+		this.unitArr[0].draw(BASE_SIZE + 4, 0, this.x, this.y);
+		this.unitArr[1].draw(BASE_SIZE + 4, BASE_SIZE + 4, this.x, this.y);
+		this.unitArr[2].draw(BASE_SIZE + 4, 2*(BASE_SIZE + 4), this.x, this.y);
+		this.unitArr[3].draw(0, 0);
 	};
 
 	drawUpBasic() {
-		super.drawUnit(2*(BASE_SIZE + 4), 0, COLOR_4);
-		super.drawUnit(0, BASE_SIZE + 4, COLOR_4);
-		super.drawUnit(BASE_SIZE + 4, BASE_SIZE + 4, COLOR_4);
-		super.drawUnit(2*(BASE_SIZE + 4), BASE_SIZE + 4, COLOR_4);
+		this.unitArr[0].draw(2*(BASE_SIZE + 4), 0, this.x, this.y);
+		this.unitArr[1].draw(0, BASE_SIZE + 4, this.x, this.y);
+		this.unitArr[2].draw(BASE_SIZE + 4, BASE_SIZE + 4, this.x, this.y);
+		this.unitArr[3].draw(2*(BASE_SIZE + 4), BASE_SIZE + 4, this.x, this.y);
 	}
 
 	drawRightBasic() {
-		super.drawUnit(0, 0, COLOR_4);
-		super.drawUnit(0, BASE_SIZE + 4, COLOR_4);
-		super.drawUnit(0, 2*(BASE_SIZE + 4), COLOR_4);
-		super.drawUnit(BASE_SIZE + 4, 2*(BASE_SIZE + 4), COLOR_4);
+		this.unitArr[0].draw(0, 0, this.x, this.y);
+		this.unitArr[1].draw(0, BASE_SIZE + 4, this.x, this.y);
+		this.unitArr[2].draw(0, 2*(BASE_SIZE + 4), this.x, this.y);
+		this.unitArr[3].draw(BASE_SIZE + 4, 2*(BASE_SIZE + 4), this.x, this.y);
 	}
 
 	drawDown() {
@@ -73,21 +73,21 @@ class RightLShape extends Shape {
 		if (this.state === 0) {
 			var newY = y - BASE_SIZE - PADDING;
 
-			if (newY + this._w <= HEIGHT) {
+			if (newY + this.w <= HEIGHT) {
 				this.y = newY;
 				this.state = 1;
 			}
 		} else if (this.state === 1) {
-			var newWidth = x + this._w;
+			var newWidth = x + this.w;
 
 			if(newWidth <= WIDTH) {
 				this.state = 2;
 			}
 		} else if (this.state === 2) {
 			var newX = x + BASE_SIZE + PADDING;
-			var newHeight = y + this._w;
+			var newHeight = y + this.w;
 
-			if(newX >= 0 && newX + this._h <= WIDTH && newHeight <= HEIGHT) {
+			if(newX >= 0 && newX + this.h <= WIDTH && newHeight <= HEIGHT) {
 				this.x = newX;
 				this.state = 3;
 			}
@@ -95,7 +95,7 @@ class RightLShape extends Shape {
 			var newX = x - BASE_SIZE - PADDING;
 			var newY = y + BASE_SIZE + PADDING;
 
-			if (newX >= 0 && newX + this._w <= WIDTH && newY + this._h <= HEIGHT) {
+			if (newX >= 0 && newX + this.w <= WIDTH && newY + this.h <= HEIGHT) {
 				this.x = newX;
 				this.y = newY;
 				this.state = 0;

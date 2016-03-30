@@ -1,22 +1,22 @@
 'use strict';
 
 class RightZShape extends Shape {
-	constructor(context, x, y, width, height, state, numStates) {
-		super(context, x, y, width, height, state, numStates);
+	constructor(context, x, y, width, height, state, numStates, unitArr) {
+		super(context, x, y, width, height, state, numStates, unitArr);
 	}
 
 	drawVerticalBasic() {
-		super.drawUnit(0, 0, COLOR_5);
-		super.drawUnit(0, BASE_SIZE + 4, COLOR_5);
-		super.drawUnit(BASE_SIZE + 4, BASE_SIZE + 4, COLOR_5);
-		super.drawUnit(BASE_SIZE + 4, 2*(BASE_SIZE + 4), COLOR_5);
+		this.unitArr[0].draw(0, 0, this.x, this.y);
+		this.unitArr[1].draw(0, BASE_SIZE + 4, this.x, this.y);
+		this.unitArr[2].draw(BASE_SIZE + 4, BASE_SIZE + 4, this.x, this.y);
+		this.unitArr[3].draw(BASE_SIZE + 4, 2*(BASE_SIZE + 4), this.x, this.y);
 	}
 
 	drawHorizontalBasic() {
-		super.drawUnit(0, BASE_SIZE + 4, COLOR_5);
-		super.drawUnit(BASE_SIZE + 4, BASE_SIZE + 4, COLOR_5);
-		super.drawUnit(BASE_SIZE + 4, 0, COLOR_5);
-		super.drawUnit(2*(BASE_SIZE + 4), 0, COLOR_5);
+		this.unitArr[0].draw(0, BASE_SIZE + 4, this.x, this.y);
+		this.unitArr[1].draw(BASE_SIZE + 4, BASE_SIZE + 4, this.x, this.y);
+		this.unitArr[2].draw(BASE_SIZE + 4, 0, this.x, this.y);
+		this.unitArr[3].draw(2*(BASE_SIZE + 4), 0, this.x, this.y);
 	}
 
 	vertical() {
@@ -40,7 +40,7 @@ class RightZShape extends Shape {
 			var newX = x + BASE_SIZE + PADDING;
 			var newY = y - BASE_SIZE - PADDING;
 
-			if (newX >= 0 && newX + this._h <= WIDTH && newY + this._w <= HEIGHT) {
+			if (newX >= 0 && newX + this.h <= WIDTH && newY + this.w <= HEIGHT) {
 				this.x = newX;
 				this.y = newY;
 				this.state = 1;
@@ -49,7 +49,7 @@ class RightZShape extends Shape {
 			var newX = x - BASE_SIZE - PADDING;
 			var newY = y + BASE_SIZE + PADDING;
 
-			if (newX >= 0 && newX + this._w <= WIDTH && newY + this._h <= HEIGHT) {
+			if (newX >= 0 && newX + this.w <= WIDTH && newY + this.h <= HEIGHT) {
 				this.x = newX;
 				this.y = newY;
 				this.state = 0;

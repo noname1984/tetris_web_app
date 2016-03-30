@@ -1,15 +1,15 @@
 'use strict';
 
 class SquareShape extends Shape {
-	constructor(context, x, y, width, height, state, numStates) {
-		super(context, x, y, width, height, state, numStates);
+	constructor(context, x, y, width, height, state, numStates, unitArr) {
+		super(context, x, y, width, height, state, numStates, unitArr);
 	}
 
 	drawBasic() {
-		super.drawUnit(0, 0, COLOR_6);
-		super.drawUnit(0, BASE_SIZE + 4, COLOR_6);
-		super.drawUnit(BASE_SIZE + 4, 0, COLOR_6);
-		super.drawUnit(BASE_SIZE + 4, BASE_SIZE + 4, COLOR_6);
+		this.unitArr[0].draw(0, 0, this.x, this.y);
+		this.unitArr[1].draw(0, BASE_SIZE + 4, this.x, this.y);
+		this.unitArr[2].draw(BASE_SIZE + 4, 0, this.x, this.y);
+		this.unitArr[3].draw(BASE_SIZE + 4, BASE_SIZE + 4, this.x, this.y);
 	}
 
 	draw() {
