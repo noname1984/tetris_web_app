@@ -7,9 +7,9 @@ class SquareShape extends Shape {
 
 	drawBasic() {
 		this.unitArr[0].draw(0, 0, this.x, this.y);
-		this.unitArr[1].draw(0, BASE_SIZE + 4, this.x, this.y);
-		this.unitArr[2].draw(BASE_SIZE + 4, 0, this.x, this.y);
-		this.unitArr[3].draw(BASE_SIZE + 4, BASE_SIZE + 4, this.x, this.y);
+		this.unitArr[1].draw(0, BASE_SIZE + PADDING, this.x, this.y);
+		this.unitArr[2].draw(BASE_SIZE + PADDING, 0, this.x, this.y);
+		this.unitArr[3].draw(BASE_SIZE + PADDING, BASE_SIZE + PADDING, this.x, this.y);
 	}
 
 	draw() {

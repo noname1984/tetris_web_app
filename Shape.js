@@ -101,8 +101,13 @@ class Shape {
 			if (newX >= 0) {
 				this.x = newX;
 			}
+			return true;
 		} else if(keyCode == 38) {	// up arrow
-			this.upArrowHandler(x, y);
+			if(this.upArrowHandler(x, y)) {
+				return true;
+			} else {
+				return false;
+			}
 		} else if (keyCode == 39) {	// right arrow
 			var newX = x + BASE_SIZE + PADDING;
 			var newWidth = (this.state%2 == 0) ? (newX + this.w) : (newX + this.h);
@@ -110,12 +115,27 @@ class Shape {
 			if (newWidth <= WIDTH) {
 				this.x = newX;
 			}
+			return true;
 		} else if (keyCode == 40) {	// down arrow
 			var newY = y + BASE_SIZE + PADDING;
 			var newHeight = (this.state%2 == 0) ? (newY + this.h) : (newY + this.w);
 
+			let testResult = testMove(this);
+			if (!testResult) {
+				for(var i = 0; i < this.unitArr.length; i++) {
+					addUnit(this.unitArr[i]);
+				}
+				return false;
+			}
+
 			if (newHeight <= HEIGHT) {
 				this.y = newY;
+				return true;
+			} else {
+				for(var i = 0; i < this.unitArr.length; i++) {
+					addUnit(this.unitArr[i]);
+				}
+				return false;
 			}
 		}
 		console.log('x: ', this.x, ', y: ', this.y);
