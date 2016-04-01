@@ -115,10 +115,10 @@ function testMove(shape, actionName) {
 	let tempSize = BASE_SIZE + PADDING;
 	let newHeight = (shape.state%2 == 0) ? (y + tempSize + shape.h) : (y + tempSize + shape.w);
 
-	let u0y_bottom = u0.bl[1] + PADDING;
-	let u1y_bottom = u1.bl[1] + PADDING;
-	let u2y_bottom = u2.bl[1] + PADDING;
-	let u3y_bottom = u3.bl[1] + PADDING;
+	let u0y_bottom = u0.bottomLeft[1] + PADDING;
+	let u1y_bottom = u1.bottomLeft[1] + PADDING;
+	let u2y_bottom = u2.bottomLeft[1] + PADDING;
+	let u3y_bottom = u3.bottomLeft[1] + PADDING;
 
 	if (unitCoors[u0y_bottom]) {
 		for(var i = 0; i < unitCoors[u0y_bottom].length; i++) {
@@ -174,7 +174,7 @@ function testMove(shape, actionName) {
 }
 
 function addToDrawnList(U) {
-	let Uy_top = U.tl[1];
+	let Uy_top = U.topLeft[1];
 	if (!unitCoors[Uy_top]) {
 		unitCoors[Uy_top] = [];
 		unitCoors[Uy_top].push(U);
@@ -184,7 +184,7 @@ function addToDrawnList(U) {
 }
 
 function compareUnits(down, up) {
-	if (down.tl[0] == up.bl[0] && down.tl[1] == (up.bl[1]+PADDING) && down.tr[0] == up.br[0] && down.tr[1] == (up.br[1]+PADDING)) {
+	if (down.topLeft[0] == up.bottomLeft[0] && down.topLeft[1] == (up.bottomLeft[1]+PADDING) && down.topRight[0] == up.bottomRight[0] && down.topRight[1] == (up.bottomRight[1]+PADDING)) {
 		return true;
 	} else {
 		return false;
@@ -192,7 +192,7 @@ function compareUnits(down, up) {
 }
 
 function overlapUnits(u1, u2) {
-	if (u1.tl[0] == u2.tl[0] && u1.tl[1] == u2.tl[1] && u1.tr[0] == u2.tr[0] && u1.tr[1] == u2.tr[1]) {
+	if (u1.topLeft[0] == u2.topLeft[0] && u1.topLeft[1] == u2.topLeft[1] && u1.topRight[0] == u2.topRight[0] && u1.topRight[1] == u2.topRight[1]) {
 		return true;
 	} else {
 		return false;
