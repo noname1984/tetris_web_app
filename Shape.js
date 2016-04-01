@@ -123,7 +123,7 @@ class Shape {
 			let testResult = testMove(this);
 			if (!testResult) {
 				for(var i = 0; i < this.unitArr.length; i++) {
-					addUnit(this.unitArr[i]);
+					addToDrawnList(this.unitArr[i]);
 				}
 				return false;
 			}
@@ -133,11 +133,18 @@ class Shape {
 				return true;
 			} else {
 				for(var i = 0; i < this.unitArr.length; i++) {
-					addUnit(this.unitArr[i]);
+					addToDrawnList(this.unitArr[i]);
 				}
 				return false;
 			}
 		}
 		console.log('x: ', this.x, ', y: ', this.y);
+	}
+
+
+	addShapeSquaresToDrawnList() {
+		for(var i = 0; i < this.unitArr.length; i++) {
+			addToDrawnList(this.unitArr[i]);
+		}
 	}
 }

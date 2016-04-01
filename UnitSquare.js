@@ -1,45 +1,45 @@
 'use strict';
 
 class UnitSquare {
-	constructor(context, tl, tr, bl, br, color) {
-		this.tl = tl;
-		this.tr = tr;
-		this.bl = bl;
-		this.br = br;
-		this.c = context;
+	constructor(context, topLeft, topRight, bottomLeft, bottomRight, color) {
+		this.topLeft = topLeft;
+		this.topRight = topRight;
+		this.bottomLeft = bottomLeft;
+		this.bottomRight = bottomRight;
+		this.canvasContext = context;
 		this.color = color;
 	}
 
-	get tl() {
-		return this._tl;
+	get topLeft() {
+		return this._topLeft;
 	}
 
-	set tl(val) {
-		this._tl = val;
+	set topLeft(val) {
+		this._topLeft = val;
 	}
 
-	get tr() {
-		return this._tr;
+	get topRight() {
+		return this._topRight;
 	}
 
-	set tr(val) {
-		this._tr = val;
+	set topRight(val) {
+		this._topRight = val;
 	}
 
-	get bl() {
-		return this._bl;
+	get bottomLeft() {
+		return this._bottomLeft;
 	}
 
-	set bl(val) {
-		this._bl = val;
+	set bottomLeft(val) {
+		this._bottomLeft = val;
 	}
 
-	get br() {
-		return this._br;
+	get bottomRight() {
+		return this._bottomRight;
 	}
 
-	set br(val) {
-		this._br = val;
+	set bottomRight(val) {
+		this._bottomRight = val;
 	}
 
 	get color() {
@@ -51,25 +51,25 @@ class UnitSquare {
 	}
 
 	updateCoors(x, y) {
-		this._tl = [x, y];
-		this._tr = [x + BASE_SIZE, y];
-		this._bl = [x, y + BASE_SIZE];
-		this._br = [x + BASE_SIZE, y + BASE_SIZE];
+		this._topLeft = [x, y];
+		this._topRight = [x + BASE_SIZE, y];
+		this._bottomLeft = [x, y + BASE_SIZE];
+		this._bottomRight = [x + BASE_SIZE, y + BASE_SIZE];
 	}
 
-	draw(x, y, x1, y1) {
-		this.c.save();
-		this.c.strokeStyle = this.color;
-		this.c.translate(x, y);
-		this.c.beginPath();
-		this.c.moveTo(0, 0);
-		this.c.lineTo(BASE_SIZE, 0);
-		this.c.lineTo(BASE_SIZE, BASE_SIZE);
-		this.c.lineTo(0, BASE_SIZE);
-		this.c.closePath();
-		this.c.stroke();
-		this.c.restore();
+	draw(x, y) {
+		this.canvasContext.save();
+		this.canvasContext.strokeStyle = this.color;
+		this.canvasContext.translate(x, y);
+		this.canvasContext.beginPath();
+		this.canvasContext.moveTo(0, 0);
+		this.canvasContext.lineTo(BASE_SIZE, 0);
+		this.canvasContext.lineTo(BASE_SIZE, BASE_SIZE);
+		this.canvasContext.lineTo(0, BASE_SIZE);
+		this.canvasContext.closePath();
+		this.canvasContext.stroke();
+		this.canvasContext.restore();
 
-		this.updateCoors(x1 + x, y1 + y);
+		this.updateCoors(x, y);
 	}
 }

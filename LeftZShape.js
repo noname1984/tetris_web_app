@@ -3,59 +3,45 @@
 class LeftZShape extends Shape {
 	constructor(context, x, y, width, height, state, numStates, unitArr) {
 		super(context, x, y, width, height, state, numStates, unitArr);
-	}
-
-	drawVerticalBasic() {
-		this.unitArr[0].draw(0, BASE_SIZE + PADDING, this.x, this.y);
-		this.unitArr[1].draw(0, 2*(BASE_SIZE + PADDING), this.x, this.y);
-		this.unitArr[2].draw(BASE_SIZE + PADDING, 0, this.x, this.y);
-		this.unitArr[3].draw(BASE_SIZE + PADDING, BASE_SIZE + PADDING, this.x, this.y);
-	}
-
-	drawHorizontalBasic() {
-		this.unitArr[0].draw(0, 0, this.x, this.y);
-		this.unitArr[1].draw(BASE_SIZE + PADDING, 0, this.x, this.y);
-		this.unitArr[2].draw(BASE_SIZE + PADDING, BASE_SIZE + PADDING, this.x, this.y);
-		this.unitArr[3].draw(2*(BASE_SIZE + PADDING), BASE_SIZE + PADDING, this.x, this.y);
+		this.BASE_PLUS_PADDING = BASE_SIZE + PADDING;
 	}
 
 	vertical() {
-		this.c.save();
-		this.c.translate(this.x, this.y);
-		this.drawVerticalBasic();
-		this.c.restore();
+		this.unitArr[0].draw(this.x, this.y + this.BASE_PLUS_PADDING);
+		this.unitArr[1].draw(this.x, this.y + 2*this.BASE_PLUS_PADDING);
+		this.unitArr[2].draw(this.x + this.BASE_PLUS_PADDING, this.y);
+		this.unitArr[3].draw(this.x + this.BASE_PLUS_PADDING, this.y + this.BASE_PLUS_PADDING);
+
 		this.state = 1;
 	}
 
 	horizontal() {
-		this.c.save();
-		this.c.translate(this.x, this.y);
-		this.drawHorizontalBasic();
-		this.c.restore();
+		this.unitArr[0].draw(this.x, this.y);
+		this.unitArr[1].draw(this.x + this.BASE_PLUS_PADDING, this.y);
+		this.unitArr[2].draw(this.x + this.BASE_PLUS_PADDING, this.y + this.BASE_PLUS_PADDING);
+		this.unitArr[3].draw(this.x + 2*this.BASE_PLUS_PADDING, this.y + this.BASE_PLUS_PADDING);
+
 		this.state = 0;
 	}
 
 	upArrowHandler(x, y) {
 		if (this.state === 0) {
-			var newX = x + BASE_SIZE + PADDING;
-			var newY = y - BASE_SIZE - PADDING;
+			var newX = x + this.BASE_PLUS_PADDING;
+			var newY = y - this.BASE_PLUS_PADDING;
 
-			this.unitArr[0].updateCoors(this.x, BASE_SIZE + PADDING + this.y);
-			this.unitArr[1].updateCoors(this.x, 2*(BASE_SIZE + PADDING) + this.y);
-			this.unitArr[2].updateCoors(this.x + BASE_SIZE + PADDING, this.y);
-			this.unitArr[3].updateCoors(this.x + BASE_SIZE + PADDING, BASE_SIZE + PADDING + this.y);
+			this.unitArr[0].draw(this.x, this.y + this.BASE_PLUS_PADDING);
+			this.unitArr[1].draw(this.x, this.y + 2*this.BASE_PLUS_PADDING);
+			this.unitArr[2].draw(this.x + this.BASE_PLUS_PADDING, this.y);
+			this.unitArr[3].draw(this.x + this.BASE_PLUS_PADDING, this.y + this.BASE_PLUS_PADDING);
 			
 			let testResult = testMove(this, 'rotate');
 			if (!testResult) {
-				this.unitArr[0].updateCoors(this.x, this.y);
-				this.unitArr[1].updateCoors(this.x + BASE_SIZE + PADDING, this.y);
-				this.unitArr[2].updateCoors(this.x + BASE_SIZE + PADDING, BASE_SIZE + PADDING + this.y);
-				this.unitArr[3].updateCoors(this.x + 2*(BASE_SIZE + PADDING), BASE_SIZE + PADDING + this.y);
+				this.unitArr[0].draw(this.x, this.y);
+				this.unitArr[1].draw(this.x + this.BASE_PLUS_PADDING, this.y);
+				this.unitArr[2].draw(this.x + this.BASE_PLUS_PADDING, this.y + this.BASE_PLUS_PADDING);
+				this.unitArr[3].draw(this.x + 2*this.BASE_PLUS_PADDING, this.y + this.BASE_PLUS_PADDING);
 				
-				addUnit(this.unitArr[0]);
-				addUnit(this.unitArr[1]);
-				addUnit(this.unitArr[2]);
-				addUnit(this.unitArr[3]);
+				this.addShapeSquaresToDrawnList();
 				return false;
 			}
 
@@ -65,32 +51,26 @@ class LeftZShape extends Shape {
 				this.state = 1;
 				return true;
 			} else {
-				addUnit(this.unitArr[0]);
-				addUnit(this.unitArr[1]);
-				addUnit(this.unitArr[2]);
-				addUnit(this.unitArr[3]);
+				this.addShapeSquaresToDrawnList();
 				return false;
 			}
 		} else {
-			var newX = x - BASE_SIZE - PADDING;
-			var newY = y + BASE_SIZE + PADDING;
+			var newX = x - this.BASE_PLUS_PADDING;
+			var newY = y + this.BASE_PLUS_PADDING;
 
-			this.unitArr[0].updateCoors(this.x, this.y);
-			this.unitArr[1].updateCoors(this.x + BASE_SIZE + PADDING, this.y);
-			this.unitArr[2].updateCoors(this.x + BASE_SIZE + PADDING, BASE_SIZE + PADDING + this.y);
-			this.unitArr[3].updateCoors(this.x + 2*(BASE_SIZE + PADDING), BASE_SIZE + PADDING + this.y);
+			this.unitArr[0].draw(this.x, this.y);
+			this.unitArr[1].draw(this.x + this.BASE_PLUS_PADDING, this.y);
+			this.unitArr[2].draw(this.x + this.BASE_PLUS_PADDING, this.y + this.BASE_PLUS_PADDING);
+			this.unitArr[3].draw(this.x + 2*this.BASE_PLUS_PADDING, this.y + this.BASE_PLUS_PADDING);
 			
 			let testResult = testMove(this, 'rotate');
 			if (!testResult) {
-				this.unitArr[0].updateCoors(this.x, BASE_SIZE + PADDING + this.y);
-				this.unitArr[1].updateCoors(this.x, 2*(BASE_SIZE + PADDING) + this.y);
-				this.unitArr[2].updateCoors(this.x + BASE_SIZE + PADDING, this.y);
-				this.unitArr[3].updateCoors(this.x + BASE_SIZE + PADDING, BASE_SIZE + PADDING + this.y);
-				
-				addUnit(this.unitArr[0]);
-				addUnit(this.unitArr[1]);
-				addUnit(this.unitArr[2]);
-				addUnit(this.unitArr[3]);
+				this.unitArr[0].draw(this.x, this.y + this.BASE_PLUS_PADDING);
+				this.unitArr[1].draw(this.x, this.y + 2*this.BASE_PLUS_PADDING);
+				this.unitArr[2].draw(this.x + this.BASE_PLUS_PADDING, this.y);
+				this.unitArr[3].draw(this.x + this.BASE_PLUS_PADDING, this.y + this.BASE_PLUS_PADDING);
+
+				this.addShapeSquaresToDrawnList();
 				return false;
 			}
 
@@ -100,10 +80,7 @@ class LeftZShape extends Shape {
 				this.state = 0;
 				return true;
 			} else {
-				addUnit(this.unitArr[0]);
-				addUnit(this.unitArr[1]);
-				addUnit(this.unitArr[2]);
-				addUnit(this.unitArr[3]);
+				this.addShapeSquaresToDrawnList();
 				return false;
 			}
 		}

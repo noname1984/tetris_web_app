@@ -5,18 +5,11 @@ class SquareShape extends Shape {
 		super(context, x, y, width, height, state, numStates, unitArr);
 	}
 
-	drawBasic() {
-		this.unitArr[0].draw(0, 0, this.x, this.y);
-		this.unitArr[1].draw(0, BASE_SIZE + PADDING, this.x, this.y);
-		this.unitArr[2].draw(BASE_SIZE + PADDING, 0, this.x, this.y);
-		this.unitArr[3].draw(BASE_SIZE + PADDING, BASE_SIZE + PADDING, this.x, this.y);
-	}
-
 	draw() {
-		this.c.save();
-		this.c.translate(this.x, this.y);
-		this.drawBasic();
-		this.c.restore();
+		this.unitArr[0].draw(this.x, this.y);
+		this.unitArr[1].draw(this.x, this.y + BASE_SIZE + PADDING);
+		this.unitArr[2].draw(this.x + BASE_SIZE + PADDING, this.y);
+		this.unitArr[3].draw(this.x + BASE_SIZE + PADDING, this.y + BASE_SIZE + PADDING);
 	}
 
 	upArrowHandler(x, y) {

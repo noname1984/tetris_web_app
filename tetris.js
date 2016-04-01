@@ -125,10 +125,7 @@ function testMove(shape, actionName) {
 			let tempUnit = unitCoors[u0y_bottom][i];
 			let comp = (actionName === 'down') ? compareUnits(tempUnit, u0) : overlapUnits(tempUnit, u0);
 			if (comp) {
-				addUnit(u0);
-				addUnit(u1);
-				addUnit(u2);
-				addUnit(u3);
+				shape.addShapeSquaresToDrawnList();
 				return false;
 			}
 		}
@@ -139,10 +136,7 @@ function testMove(shape, actionName) {
 			let tempUnit = unitCoors[u1y_bottom][i];
 			let comp = (actionName === 'down') ? compareUnits(tempUnit, u1) : overlapUnits(tempUnit, u1);
 			if (comp) {
-				addUnit(u0);
-				addUnit(u1);
-				addUnit(u2);
-				addUnit(u3);
+				shape.addShapeSquaresToDrawnList();
 				return false;
 			}
 		}
@@ -153,10 +147,7 @@ function testMove(shape, actionName) {
 			let tempUnit = unitCoors[u2y_bottom][i];
 			let comp = (actionName === 'down') ? compareUnits(tempUnit, u2) : overlapUnits(tempUnit, u2);
 			if (comp) {
-				addUnit(u0);
-				addUnit(u1);
-				addUnit(u2);
-				addUnit(u3);
+				shape.addShapeSquaresToDrawnList();
 				return false;
 			}
 		}
@@ -167,10 +158,7 @@ function testMove(shape, actionName) {
 			let tempUnit = unitCoors[u3y_bottom][i];
 			let comp = (actionName === 'down') ? compareUnits(tempUnit, u3) : overlapUnits(tempUnit, u3);
 			if (comp) {
-				addUnit(u0);
-				addUnit(u1);
-				addUnit(u2);
-				addUnit(u3);
+				shape.addShapeSquaresToDrawnList();
 				return false;
 			}
 		}
@@ -179,16 +167,13 @@ function testMove(shape, actionName) {
 	if (newHeight <= HEIGHT) {
 		return true;
 	} else {
-		addUnit(u0);
-		addUnit(u1);
-		addUnit(u2);
-		addUnit(u3);
+		shape.addShapeSquaresToDrawnList();
 
 		return false;
 	}
 }
 
-function addUnit(U) {
+function addToDrawnList(U) {
 	let Uy_top = U.tl[1];
 	if (!unitCoors[Uy_top]) {
 		unitCoors[Uy_top] = [];
