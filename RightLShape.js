@@ -19,7 +19,7 @@ class RightLShape extends Shape {
 		this.unitArr[0].draw(this.x, this.y);
 		this.unitArr[1].draw(this.x + this.BASE_PLUS_PADDING, this.y);
 		this.unitArr[2].draw(this.x + this.BASE_PLUS_PADDING, this.y + this.BASE_PLUS_PADDING);
-		this.unitArr[3].draw(this.y + this.BASE_PLUS_PADDING, this.y + 2*this.BASE_PLUS_PADDING);
+		this.unitArr[3].draw(this.x + this.BASE_PLUS_PADDING, this.y + 2*this.BASE_PLUS_PADDING);
 
 		this.state = 1;
 	}
@@ -49,7 +49,7 @@ class RightLShape extends Shape {
 			this.unitArr[0].updateCoors(this.x, this.y);
 			this.unitArr[1].updateCoors(this.x + this.BASE_PLUS_PADDING, this.y);
 			this.unitArr[2].updateCoors(this.x + this.BASE_PLUS_PADDING, this.y + this.BASE_PLUS_PADDING);
-			this.unitArr[3].updateCoors(this.y + this.BASE_PLUS_PADDING, this.y + 2*this.BASE_PLUS_PADDING);
+			this.unitArr[3].updateCoors(this.x + this.BASE_PLUS_PADDING, this.y + 2*this.BASE_PLUS_PADDING);
 			
 			let testResult = testMove(this, 'rotate');
 			if (!testResult) {
@@ -83,7 +83,7 @@ class RightLShape extends Shape {
 				this.unitArr[0].updateCoors(this.x, this.y);
 				this.unitArr[1].updateCoors(this.x + this.BASE_PLUS_PADDING, this.y);
 				this.unitArr[2].updateCoors(this.x + this.BASE_PLUS_PADDING, this.y + this.BASE_PLUS_PADDING);
-				this.unitArr[3].updateCoors(this.y + this.BASE_PLUS_PADDING, this.y + 2*this.BASE_PLUS_PADDING);
+				this.unitArr[3].updateCoors(this.x + this.BASE_PLUS_PADDING, this.y + 2*this.BASE_PLUS_PADDING);
 
 				this.addShapeSquaresToDrawnList();
 				return false;
