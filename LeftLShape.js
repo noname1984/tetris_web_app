@@ -89,11 +89,9 @@ class LeftLShape extends Shape {
 
 			if (newWidth <= WIDTH) {
 				this.state = 2;
-				return true;
-			} else {
-				this.addShapeSquaresToDrawnList();
-				return false;
 			}
+			return true;
+
 		} else if (this.state === 2) {
 			var newX = x + this.BASE_PLUS_PADDING;
 			var newHeight = y + this.w;
@@ -114,13 +112,15 @@ class LeftLShape extends Shape {
 				return false;
 			}
 
-			if(newX >= 0 && newX + this.h <= WIDTH && newHeight <= HEIGHT) {
-				this.x = newX;
-				this.state = 3;
-				return true;
-			} else {
+			if (newHeight > HEIGHT) {
 				this.addShapeSquaresToDrawnList();
 				return false;
+			} else {
+				if (newX >= 0 && newX + this.h <= WIDTH) {
+					this.x = newX;
+					this.state = 3;
+				}
+				return true;
 			}
 		} else {
 			var newX = x - this.BASE_PLUS_PADDING;
@@ -142,14 +142,16 @@ class LeftLShape extends Shape {
 				return false;
 			}
 
-			if (newX >= 0 && newX + this.w <= WIDTH && newY + this.h <= HEIGHT) {
-				this.x = newX;
-				this.y = newY
-				this.state = 0;
-				return true;
-			} else {
+			if (newY + this.h > HEIGHT) {
 				this.addShapeSquaresToDrawnList();
 				return false;
+			} else {
+				if (newX >= 0 && newX + this.w <= WIDTH) {
+					this.x = newX;
+					this.y = newY
+					this.state = 0;
+				}
+				return true;
 			}
 		}
 	}

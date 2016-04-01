@@ -45,14 +45,16 @@ class LeftZShape extends Shape {
 				return false;
 			}
 
-			if (newX >= 0 && newX + this.h <= WIDTH && newY + this.w <= HEIGHT) {
-				this.x = newX;
-				this.y = newY;
-				this.state = 1;
-				return true;
-			} else {
+			if (newY + this.w > HEIGHT) {
 				this.addShapeSquaresToDrawnList();
 				return false;
+			} else {
+				if (newX >= 0 && newX + this.h <= WIDTH) {
+					this.x = newX;
+					this.y = newY;
+					this.state = 1;
+				}
+				return true;
 			}
 		} else {
 			var newX = x - this.BASE_PLUS_PADDING;
@@ -74,14 +76,16 @@ class LeftZShape extends Shape {
 				return false;
 			}
 
-			if (newX >= 0 && newX + this.w <= WIDTH && newY + this.h <= HEIGHT) {
-				this.x = newX;
-				this.y = newY;
-				this.state = 0;
-				return true;
-			} else {
+			if (newY + this.h > HEIGHT) {
 				this.addShapeSquaresToDrawnList();
 				return false;
+			} else {
+				if (newX >= 0 && newX + this.w <= WIDTH) {
+					this.x = newX;
+					this.y = newY;
+					this.state = 0;
+				}
+				return true;
 			}
 		}
 	}
