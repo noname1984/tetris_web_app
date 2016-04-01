@@ -16,6 +16,8 @@ function clearView() {
 	context.clearRect(0, 0, WIDTH, HEIGHT);
 };
 
+var lastShapeTimer = null;
+
 var loop = function (){
 	let randomType = Math.floor(Math.random()*7);
 	switch(randomType) {
@@ -86,7 +88,7 @@ var loop = function (){
 
 	drawView();
 	let last = shapes[shapes.length-1];
-	let lastShapeTimer = setInterval(function() {
+	lastShapeTimer = setInterval(function() {
 		let y = last.y;
 
 		let testResult = testMove(last, 'down');
@@ -204,6 +206,7 @@ $(document).keydown(function(event) {
 	var keyCode = event.which;
 	var last = shapes[shapes.length-1];
 	if(!last.keyDownHandler(keyCode)) {
+		clearInterval(lastShapeTimer);
 		loop();
 	}
 	drawView();
