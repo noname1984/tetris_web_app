@@ -1,91 +1,55 @@
 'use strict';
 
 class IShape extends Shape {
-	constructor(context, x, y, width, height, state, numStates, unitArr) {
-		super(context, x, y, width, height, state, numStates, unitArr);
-		this.BASE_PLUS_PADDING = BASE_SIZE + PADDING;
+	constructor(state, numStates, unitArr) {
+		super(state, numStates, unitArr);
 	}
 
 	vertical() {
-		this.unitArr[0].draw(this.x, this.y);
-		this.unitArr[1].draw(this.x, this.y + this.BASE_PLUS_PADDING);
-		this.unitArr[2].draw(this.x, this.y + 2*this.BASE_PLUS_PADDING);
-		this.unitArr[3].draw(this.x, this.y + 3*this.BASE_PLUS_PADDING);
+		this.unitArr[0].draw(this.unitArr[0].topLeft[0], this.unitArr[0].topLeft[1]);
+		this.unitArr[1].draw(this.unitArr[1].topLeft[0], this.unitArr[1].topLeft[1] + BASE_PLUS_PADDING);
+		this.unitArr[2].draw(this.unitArr[2].topLeft[0], this.unitArr[2].topLeft[1] + 2*BASE_PLUS_PADDING);
+		this.unitArr[3].draw(this.unitArr[3].topLeft[0], this.unitArr[3].topLeft[1] + 3*BASE_PLUS_PADDING);
 		this.state = 1;
 	}
 
 	horizontal() {
-		this.unitArr[0].draw(this.x, this.y);
-		this.unitArr[1].draw(this.x + this.BASE_PLUS_PADDING, this.y);
-		this.unitArr[2].draw(this.x + 2 * this.BASE_PLUS_PADDING, this.y);
-		this.unitArr[3].draw(this.x +  3 * this.BASE_PLUS_PADDING, this.y);
+		this.unitArr[0].draw(this.unitArr[0].topLeft[0], this.unitArr[0].topLeft[1]);
+		this.unitArr[1].draw(this.unitArr[1].topLeft[0] + BASE_PLUS_PADDING, this.unitArr[1].topLeft[1]);
+		this.unitArr[2].draw(this.unitArr[2].topLeft[0] + 2*BASE_PLUS_PADDING, this.unitArr[2].topLeft[1]);
+		this.unitArr[3].draw(this.unitArr[3].topLeft[0] +  3*BASE_PLUS_PADDING, this.unitArr[3].topLeft[1]);
 		this.state = 0;
 	}
 
 	upArrowHandler(x, y) {
 		if (this.state === 0) {
-			var newX = x + 2*this.BASE_PLUS_PADDING;
-			var newY = y - 2*this.BASE_PLUS_PADDING;
-
-			this.unitArr[0].updateCoors(this.x, this.y);
-			this.unitArr[1].updateCoors(this.x, this.y + this.BASE_PLUS_PADDING);
-			this.unitArr[2].updateCoors(this.x, this.y + 2*this.BASE_PLUS_PADDING);
-			this.unitArr[3].updateCoors(this.x, this.y + 3*this.BASE_PLUS_PADDING);
+			this.unitArr[0].updateCoors(this.unitArr[0].topLeft[0], this.unitArr[0].topLeft[1]);
+			this.unitArr[1].updateCoors(this.unitArr[1].topLeft[0], this.unitArr[1].topLeft[1] + BASE_PLUS_PADDING);
+			this.unitArr[2].updateCoors(this.unitArr[2].topLeft[0], this.unitArr[2].topLeft[1] + 2*BASE_PLUS_PADDING);
+			this.unitArr[3].updateCoors(this.unitArr[3].topLeft[0], this.unitArr[3].topLeft[1] + 3*BASE_PLUS_PADDING);
 			
-			let testResult = testMove(this, 'rotate');
+			let testResult = Tetris.testRotate(this);
 			if (!testResult) {
-				this.unitArr[0].updateCoors(this.x, this.y);
-				this.unitArr[1].updateCoors(this.x + this.BASE_PLUS_PADDING, this.y);
-				this.unitArr[2].updateCoors(this.x + 2*this.BASE_PLUS_PADDING, this.y);
-				this.unitArr[3].updateCoors(this.x + 3*this.BASE_PLUS_PADDING, this.y);
-				
-				this.addShapeSquaresToDrawnList();
-				
-				return false;
+				this.unitArr[0].updateCoors(this.unitArr[0].topLeft[0], this.unitArr[0].topLeft[1]);
+				this.unitArr[1].updateCoors(this.unitArr[1].topLeft[0] + BASE_PLUS_PADDING, this.unitArr[1].topLeft[1]);
+				this.unitArr[2].updateCoors(this.unitArr[2].topLeft[0] + 2*BASE_PLUS_PADDING, this.unitArr[2].topLeft[1]);
+				this.unitArr[3].updateCoors(this.unitArr[3].topLeft[0] + 3*BASE_PLUS_PADDING, this.unitArr[3].topLeft[1]);
 			}
-
-			if (newY + this.w > HEIGHT) {
-				this.addShapeSquaresToDrawnList();
-				return false;
-			} else {
-				if (newX >= 0 && (newX + this.h) <= WIDTH) {
-					this.x = newX;
-					this.y = newY;
-					this.state = 1;
-				}
-				return true;
-			}
+			return testResult;
 		} else {
-			var newX = x - 2*this.BASE_PLUS_PADDING;
-			var newY = y + 2*this.BASE_PLUS_PADDING;
-
-			this.unitArr[0].updateCoors(this.x, this.y);
-			this.unitArr[1].updateCoors(this.x + this.BASE_PLUS_PADDING, this.y);
-			this.unitArr[2].updateCoors(this.x + 2*this.BASE_PLUS_PADDING, this.y);
-			this.unitArr[3].updateCoors(this.x + 3*this.BASE_PLUS_PADDING, this.y);
+			this.unitArr[0].updateCoors(this.unitArr[0].topLeft[0], this.unitArr[0].topLeft[1]);
+			this.unitArr[1].updateCoors(this.unitArr[1].topLeft[0] + BASE_PLUS_PADDING, this.unitArr[1].topLeft[1]);
+			this.unitArr[2].updateCoors(this.unitArr[2].topLeft[0] + 2*BASE_PLUS_PADDING, this.unitArr[2].topLeft[1]);
+			this.unitArr[3].updateCoors(this.unitArr[3].topLeft[0] + 3*BASE_PLUS_PADDING, this.unitArr[3].topLeft[1]);
 			
-			let testResult = testMove(this, 'rotate');
+			let testResult = Tetris.testRotate(this);
 			if (!testResult) {
-				this.unitArr[0].updateCoors(this.x, this.y);
-				this.unitArr[1].updateCoors(this.x, this.BASE_PLUS_PADDING + this.y);
-				this.unitArr[2].updateCoors(this.x, 2*this.BASE_PLUS_PADDING + this.y);
-				this.unitArr[3].updateCoors(this.x, 3*this.BASE_PLUS_PADDING + this.y);
-
-				this.addShapeSquaresToDrawnList();
-				return false;
+				this.unitArr[0].updateCoors(this.unitArr[0].topLeft[0], this.unitArr[0].topLeft[1]);
+				this.unitArr[1].updateCoors(this.unitArr[1].topLeft[0], BASE_PLUS_PADDING + this.unitArr[1].topLeft[1]);
+				this.unitArr[2].updateCoors(this.unitArr[2].topLeft[0], 2*BASE_PLUS_PADDING + this.unitArr[2].topLeft[1]);
+				this.unitArr[3].updateCoors(this.unitArr[3].topLeft[0], 3*BASE_PLUS_PADDING + this.unitArr[3].topLeft[1]);
 			}
-
-			if (newY + this.h > HEIGHT) {
-				this.addShapeSquaresToDrawnList();
-				return false;
-			} else {
-				if (newX >= 0 && (newX + this.w) <= WIDTH) {
-					this.x = newX;
-					this.y = newY;
-					this.state = 0;
-				}
-				return true;
-			}
+			return testResult;
 		}
 	}
 };

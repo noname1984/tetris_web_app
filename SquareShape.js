@@ -1,15 +1,15 @@
 'use strict';
 
 class SquareShape extends Shape {
-	constructor(context, x, y, width, height, state, numStates, unitArr) {
-		super(context, x, y, width, height, state, numStates, unitArr);
+	constructor(state, numStates, unitArr) {
+		super(state, numStates, unitArr);
 	}
 
 	draw() {
-		this.unitArr[0].draw(this.x, this.y);
-		this.unitArr[1].draw(this.x, this.y + BASE_SIZE + PADDING);
-		this.unitArr[2].draw(this.x + BASE_SIZE + PADDING, this.y);
-		this.unitArr[3].draw(this.x + BASE_SIZE + PADDING, this.y + BASE_SIZE + PADDING);
+		this.unitArr[0].draw(this.unitArr[0].topLeft[0], this.unitArr[0].topLeft[1]);
+		this.unitArr[1].draw(this.unitArr[1].topLeft[0], this.unitArr[1].topLeft[1] + BASE_PLUS_PADDING);
+		this.unitArr[2].draw(this.unitArr[2].topLeft[0] + BASE_PLUS_PADDING, this.unitArr[2].topLeft[1]);
+		this.unitArr[3].draw(this.unitArr[3].topLeft[0] + BASE_PLUS_PADDING, this.unitArr[3].topLeft[1] + BASE_PLUS_PADDING);
 	}
 
 	upArrowHandler(x, y) {

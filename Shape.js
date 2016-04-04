@@ -1,31 +1,10 @@
 'use strict';
 
 class Shape {
-	constructor(context, x, y, width, height, state, numStates, unitArr) {
-		this.c = context;
-		this.x = x;
-		this.y = y;
-		this.w = width;
-		this.h = height;
+	constructor(state, numStates, unitArr) {
 		this.state = state;
 		this.numStates = numStates;
 		this.unitArr = unitArr;
-	}
-
-	get x() {
-		return this._x;
-	}
-
-	set x(val) {
-		this._x = val;
-	}
-
-	get y() {
-		return this._y;
-	}
-
-	set y(val) {
-		this._y = val;
 	}
 
 	get state() {
@@ -34,22 +13,6 @@ class Shape {
 
 	set state(val) {
 		this._state = val;
-	}
-
-	get w() {
-		return this._w;
-	}
-
-	set w(val) {
-		this._w = val;
-	}
-
-	get h() {
-		return this._h;
-	}
-
-	set h(val) {
-		this._h = val;
 	}
 
 	get unitArr() {
@@ -93,13 +56,11 @@ class Shape {
 	}
 
 	keyDownHandler(keyCode) {
-		var x = this.x;
-		var y = this.y;
 
 		if (keyCode == 37) {	// left arrow
-			var newX = x - BASE_SIZE - PADDING;
-			if (newX >= 0) {
-				this.x = newX;
+			let testLeftResult = Tetris.testLeft(this);
+			if (testLeftResult) {
+				this.moveLeft();
 			}
 			return true;
 		} else if(keyCode == 38) {	// up arrow
@@ -109,32 +70,17 @@ class Shape {
 				return false;
 			}
 		} else if (keyCode == 39) {	// right arrow
-			var newX = x + BASE_SIZE + PADDING;
-			var newWidth = (this.state%2 == 0) ? (newX + this.w) : (newX + this.h);
-
-			if (newWidth <= WIDTH) {
-				this.x = newX;
+			let testRightResult = Tetris.testRight(this);
+			if (testRightResult) {
+				this.moveRight();
 			}
 			return true;
 		} else if (keyCode == 40) {	// down arrow
-			var newY = y + BASE_SIZE + PADDING;
-			var newHeight = (this.state%2 == 0) ? (newY + this.h) : (newY + this.w);
-
-			let testResult = testMove(this);
-			if (!testResult) {
-				for(var i = 0; i < this.unitArr.length; i++) {
-					addToDrawnList(this.unitArr[i]);
-				}
-				return false;
-			}
-
-			if (newHeight <= HEIGHT) {
-				this.y = newY;
+			let testResult = Tetris.testDown(this);
+			if (testResult) {
+				this.moveDown();
 				return true;
 			} else {
-				for(var i = 0; i < this.unitArr.length; i++) {
-					addToDrawnList(this.unitArr[i]);
-				}
 				return false;
 			}
 		}
@@ -145,6 +91,24 @@ class Shape {
 	addShapeSquaresToDrawnList() {
 		for(var i = 0; i < this.unitArr.length; i++) {
 			addToDrawnList(this.unitArr[i]);
+		}
+	}
+
+	moveLeft() {
+		for (var i = 0; i < this.unitArr.length; i++) {
+			this.unitArr[i].moveLeft();
+		}
+	}
+
+	moveRight() {
+		for (var i = 0; i < this.unitArr.length; i++) {
+			this.unitArr[i].moveRight();
+		}
+	}
+
+	moveDown() {
+		for (var i = 0; i < this.unitArr.length; i++) {
+			this.unitArr[i].moveDown();
 		}
 	}
 }

@@ -1,213 +1,259 @@
 'use strict';
 var canvas = $('#mainView')[0];
-
 var context = canvas.getContext('2d');
 
-var shapes = [];
-var unitCoors = {};
-
-function drawView() {
-	for(var i = 0; i < shapes.length; i++) {
-		shapes[i].draw();
-	}
-};
-
-function clearView() {
-	context.clearRect(0, 0, WIDTH, HEIGHT);
-};
-
-var lastShapeTimer = null;
-
-var loop = function (){
-	let randomType = Math.floor(Math.random()*7);
-	switch(randomType) {
-		case 0:
-			let units0 = [
-				new UnitSquare(context, [0,0], [0,0], [0,0], [0,0], COLOR_1), 
-				new UnitSquare(context, [0,0], [0,0], [0,0], [0,0], COLOR_1),
-				new UnitSquare(context, [0,0], [0,0], [0,0], [0,0], COLOR_1),
-				new UnitSquare(context, [0,0], [0,0], [0,0], [0,0], COLOR_1)
-			];
-			shapes.push(new IShape(context, START_X, START_Y, 160, 40, 0, 2, units0));
-			break;
-		case 1:
-			let units1 = [
-				new UnitSquare(context, [0,0], [0,0], [0,0], [0,0], COLOR_2), 
-				new UnitSquare(context, [0,0], [0,0], [0,0], [0,0], COLOR_2),
-				new UnitSquare(context, [0,0], [0,0], [0,0], [0,0], COLOR_2),
-				new UnitSquare(context, [0,0], [0,0], [0,0], [0,0], COLOR_2)
-			];
-			shapes.push(new TShape(context, START_X, START_Y, 120, 80, 0, 4, units1));
-			break;
-		case 2:
-			let units2 = [
-				new UnitSquare(context, [0,0], [0,0], [0,0], [0,0], COLOR_3), 
-				new UnitSquare(context, [0,0], [0,0], [0,0], [0,0], COLOR_3),
-				new UnitSquare(context, [0,0], [0,0], [0,0], [0,0], COLOR_3),
-				new UnitSquare(context, [0,0], [0,0], [0,0], [0,0], COLOR_3)
-			];
-			shapes.push(new SquareShape(context, START_X, START_Y, 80, 80, 1, 1, units2));
-			break;
-		case 3:
-			let units3 = [
-				new UnitSquare(context, [0,0], [0,0], [0,0], [0,0], COLOR_4), 
-				new UnitSquare(context, [0,0], [0,0], [0,0], [0,0], COLOR_4),
-				new UnitSquare(context, [0,0], [0,0], [0,0], [0,0], COLOR_4),
-				new UnitSquare(context, [0,0], [0,0], [0,0], [0,0], COLOR_4)
-			];
-			shapes.push(new LeftLShape(context, START_X, START_Y, 120, 80, 0, 4, units3));
-			break;
-		case 4:
-			let units4 = [
-				new UnitSquare(context, [0,0], [0,0], [0,0], [0,0], COLOR_5), 
-				new UnitSquare(context, [0,0], [0,0], [0,0], [0,0], COLOR_5),
-				new UnitSquare(context, [0,0], [0,0], [0,0], [0,0], COLOR_5),
-				new UnitSquare(context, [0,0], [0,0], [0,0], [0,0], COLOR_5)
-			];
-			shapes.push(new RightLShape(context, START_X, START_Y, 120, 80, 0, 4, units4));
-			break;
-		case 5:
-			let units5 = [
-				new UnitSquare(context, [0,0], [0,0], [0,0], [0,0], COLOR_6), 
-				new UnitSquare(context, [0,0], [0,0], [0,0], [0,0], COLOR_6),
-				new UnitSquare(context, [0,0], [0,0], [0,0], [0,0], COLOR_6),
-				new UnitSquare(context, [0,0], [0,0], [0,0], [0,0], COLOR_6)
-			];
-			shapes.push(new LeftZShape(context, START_X, START_Y, 120, 80, 0, 2, units5));
-			break;
-		case 6:
-			let units6 = [
-				new UnitSquare(context, [0,0], [0,0], [0,0], [0,0], COLOR_7), 
-				new UnitSquare(context, [0,0], [0,0], [0,0], [0,0], COLOR_7),
-				new UnitSquare(context, [0,0], [0,0], [0,0], [0,0], COLOR_7),
-				new UnitSquare(context, [0,0], [0,0], [0,0], [0,0], COLOR_7)
-			];
-			shapes.push(new RightZShape(context, START_X, START_Y, 120, 80, 0, 2, units6));
-			break;
+class Tetris {
+	constructor(c) {
+		this.shape = null;
+		this.drawnSquares = {};
+		this.context = c;
+		this.lastShapeTimer = null;
 	}
 
-	drawView();
-	let last = shapes[shapes.length-1];
-	lastShapeTimer = setInterval(function() {
-		let y = last.y;
+	get shape() {
+		return this._shape;
+	}
 
-		let testResult = testMove(last, 'down');
+	set shape(val) {
+		this._shape = val;
+	}
 
-		if (testResult) {
-			clearView();
-			last.y = y + BASE_SIZE + PADDING;
-			drawView();
+	get drawnSquares() {
+		return this._drawnSquares;
+	}
+
+	set drawnSquares(val) {
+		this._drawnSquares = val;
+	}
+
+	drawView() {
+		_.forEach(this.drawnSquares, function(sameHeightSquares) {
+			_.forEach(sameHeightSquares, function(val) {
+				val.draw();
+			});
+		});
+	}
+
+	clearView() {
+		this.context.clearRect(0, 0, WIDTH, HEIGHT);
+	}
+
+	loop() {
+		let randomType = Math.floor(Math.random()*7);
+		switch(randomType) {
+			case 0:
+				let units0 = [
+					new UnitSquare(this.context, START_X, START_Y, COLOR_1),
+					new UnitSquare(this.context, START_X + BASE_PLUS_PADDING, START_Y, COLOR_1),
+					new UnitSquare(this.context, START_X + 2*BASE_PLUS_PADDING, START_Y, COLOR_1),
+					new UnitSquare(this.context, START_X + 3*BASE_PLUS_PADDING, START_Y, COLOR_1)
+				];
+				this.shape = new IShape(0, 2, units0);
+				break;
+			case 1:
+				let units1 = [
+					new UnitSquare(this.context, START_X, START_Y, COLOR_2),
+					new UnitSquare(this.context, START_X + BASE_PLUS_PADDING, START_Y, COLOR_2),
+					new UnitSquare(this.context, START_X + 2*BASE_PLUS_PADDING, START_Y, COLOR_2),
+					new UnitSquare(this.context, START_X + BASE_PLUS_PADDING, START_Y + BASE_PLUS_PADDING, COLOR_2)
+				];
+				this.shape = new TShape(0, 4, units1);
+				break;
+			case 2:
+				let units2 = [
+					new UnitSquare(this.context, START_X, START_Y, COLOR_3),
+					new UnitSquare(this.context, START_X, START_Y + BASE_PLUS_PADDING, COLOR_3),
+					new UnitSquare(this.context, START_X + BASE_PLUS_PADDING, START_Y, COLOR_3),
+					new UnitSquare(this.context, START_X + BASE_PLUS_PADDING, START_Y + BASE_PLUS_PADDING, COLOR_3)
+				];
+				this.shape = new SquareShape(1, 1, units2);
+				break;
+			case 3:
+				let units3 = [
+					new UnitSquare(this.context, START_X, START_Y, COLOR_4),
+					new UnitSquare(this.context, START_X + BASE_PLUS_PADDING, START_Y, COLOR_4),
+					new UnitSquare(this.context, START_X + 2*BASE_PLUS_PADDING, START_Y, COLOR_4),
+					new UnitSquare(this.context, START_X + 2*BASE_PLUS_PADDING, START_Y + BASE_PLUS_PADDING, COLOR_4)
+				];
+				this.shape = new LeftLShape(0, 4, units3);
+				break;
+			case 4:
+				let units4 = [
+					new UnitSquare(this.context, START_X, START_Y, COLOR_5),
+					new UnitSquare(this.context, START_X + BASE_PLUS_PADDING, START_Y, COLOR_5),
+					new UnitSquare(this.context, START_X + 2*BASE_PLUS_PADDING, START_Y, COLOR_5),
+					new UnitSquare(this.context, START_X, START_Y + BASE_PLUS_PADDING, COLOR_5)
+				];
+				this.shape = new RightLShape(0, 4, units4);
+				break;
+			case 5:
+				let units5 = [
+					new UnitSquare(this.context, START_X, START_Y, COLOR_6),
+					new UnitSquare(this.context, START_X + BASE_PLUS_PADDING, START_Y, COLOR_6),
+					new UnitSquare(this.context, START_X + BASE_PLUS_PADDING, START_Y + BASE_PLUS_PADDING, COLOR_6),
+					new UnitSquare(this.context, START_X + 2*BASE_PLUS_PADDING, START_Y + BASE_PLUS_PADDING, COLOR_6)
+				];
+				this.shape = new LeftZShape(0, 2, units5);
+				break;
+			case 6:
+				let units6 = [
+					new UnitSquare(this.context, START_X, START_Y + BASE_PLUS_PADDING, COLOR_7),
+					new UnitSquare(this.context, START_X + BASE_PLUS_PADDING, START_Y, COLOR_7),
+					new UnitSquare(this.context, START_X + BASE_PLUS_PADDING, START_Y + BASE_PLUS_PADDING, COLOR_7),
+					new UnitSquare(this.context, START_X + 2*BASE_PLUS_PADDING, START_Y, COLOR_7)
+				];
+				this.shape = new RightZShape(0, 2, units6);
+				break;
+		}
+
+		var self = this;
+		$(document).keydown(function(event) {
+			self.clearView();
+			var keyCode = event.which;
+			if(!self.shape.keyDownHandler(keyCode)) {
+				clearInterval(self.lastShapeTimer);
+				self.loop();
+				return;
+			}
+			self.drawView();
+		});
+
+		this.drawView();
+		this.lastShapeTimer = setInterval(function() {
+			let testResult = Tetris.testDown(self.shape);
+			if (testResult) {
+				self.clearView();
+				self.shape.moveDown();
+				self.drawView();
+			} else {
+				clearInterval(self.lastShapeTimer);
+				self.clearView();
+				self.loop();
+			}
+		}, 1000);
+	}
+
+	static testLeft(shape) {
+		let result = true;
+		_.forEach(shape.unitArr, function(val) {
+			if (!Tetris.moveSquareLeft(val)) {
+				result = false;
+				return false;
+			}
+		});
+		return result;
+	}
+
+	static moveSquareLeft(square) {
+		let x = square.topLeft[0] - BASE_PLUS_PADDING;
+		if (x < 0) {
+			return false;
 		} else {
-			clearInterval(lastShapeTimer);
-			loop();
+			let y = square.topLeft[1];
+			if (!this.drawnSquares[y]) {
+				return true;
+			} else {
+				if (!this.drawnSquares[y][x]) {
+					return true;
+				} else {
+					return false;
+				}
+			}
 		}
-	}, 1000);
+	}
+
+	static testRight(shape) {
+		let result = true;
+		_.forEach(shape.unitArr, function(val) {
+			if (!Tetris.moveSquareRight(val)) {
+				result = false;
+				return false;
+			}
+		});
+		return result;
+	}
+
+	static moveSquareRight(square) {
+		let x = square.topRight[0] + BASE_PLUS_PADDING;
+		if (x > WIDTH) {
+			return false;
+		} else {
+			let y = square.topRight[1];
+			if (!this.drawnSquares[y]) {
+				return true;
+			} else {
+				if (!this.drawnSquares[y][x]) {
+					return true;
+				} else {
+					return false;
+				}
+			}
+		}
+	}
+
+	static testDown(shape) {
+		let result = true;
+		_.forEach(shape.unitArr, function(val) {
+			if (!Tetris.moveSquareDown(val)) {
+				result = false;
+				return false;
+			}
+		});
+		return result;
+	}
+
+	static moveSquareDown(square) {
+		let y = square.topLeft[1];
+		let y1 = y + BASE_PLUS_PADDING;
+		let x = square.topLeft[0];
+		if (y1 > HEIGHT) {
+			if (!this.drawnSquares[y]) {
+				this.drawnSquares[y] = {
+					x: square
+				};
+			} else {
+				this.drawnSquares[y][x] = square;
+			}
+			return false;
+		} else {
+			if (!this.drawnSquares[y1]) {
+				return true;
+			} else {
+				if (!this.drawnSquares[y1][x]) {
+					return true;
+				} else {
+					this.drawnSquares[y1][x] = square;
+					return false;
+				}
+			}
+		}
+	}
+
+	static testRotate(rotatedShape) {
+		let result = true;
+		_.forEach(rotatedShape.unitArr, function(val) {
+			if (!Tetris.testRotateSquare(val)) {
+				result = false;
+				return false;
+			}
+		});
+		return result;
+	}
+
+	static testRotateSquare(rotatedSquare) {
+		let x = rotatedSquare.topLeft[0];
+		let y = rotatedSquare.topLeft[1];
+		if (x < 0 || x > WIDTH || y > HEIGHT) {
+			return false;
+		}
+
+		if (this.drawnSquares[y] && this.drawnSquares[y][x]) {
+			return false;
+		} else {
+			return true;
+		}
+	}
 };
 
-loop();
-
-function testMove(shape, actionName) {
-	let units = shape.unitArr;
-	let u0 = units[0];
-	let u1 = units[1];
-	let u2 = units[2];
-	let u3 = units[3];
-	let y = shape.y;
-
-	let tempSize = BASE_SIZE + PADDING;
-	let newHeight = (shape.state%2 == 0) ? (y + tempSize + shape.h) : (y + tempSize + shape.w);
-
-	let u0y_bottom = u0.bottomLeft[1] + PADDING;
-	let u1y_bottom = u1.bottomLeft[1] + PADDING;
-	let u2y_bottom = u2.bottomLeft[1] + PADDING;
-	let u3y_bottom = u3.bottomLeft[1] + PADDING;
-
-	if (unitCoors[u0y_bottom]) {
-		for(var i = 0; i < unitCoors[u0y_bottom].length; i++) {
-			let tempUnit = unitCoors[u0y_bottom][i];
-			let comp = (actionName === 'down') ? compareUnits(tempUnit, u0) : overlapUnits(tempUnit, u0);
-			if (comp) {
-				shape.addShapeSquaresToDrawnList();
-				return false;
-			}
-		}
-	}
-
-	if (unitCoors[u1y_bottom]) {
-		for(var i = 0; i < unitCoors[u1y_bottom].length; i++) {
-			let tempUnit = unitCoors[u1y_bottom][i];
-			let comp = (actionName === 'down') ? compareUnits(tempUnit, u1) : overlapUnits(tempUnit, u1);
-			if (comp) {
-				shape.addShapeSquaresToDrawnList();
-				return false;
-			}
-		}
-	}
-
-	if (unitCoors[u2y_bottom]) {
-		for(var i = 0; i < unitCoors[u2y_bottom].length; i++) {
-			let tempUnit = unitCoors[u2y_bottom][i];
-			let comp = (actionName === 'down') ? compareUnits(tempUnit, u2) : overlapUnits(tempUnit, u2);
-			if (comp) {
-				shape.addShapeSquaresToDrawnList();
-				return false;
-			}
-		}
-	}
-
-	if (unitCoors[u3y_bottom]) {
-		for(var i = 0; i < unitCoors[u3y_bottom].length; i++) {
-			let tempUnit = unitCoors[u3y_bottom][i];
-			let comp = (actionName === 'down') ? compareUnits(tempUnit, u3) : overlapUnits(tempUnit, u3);
-			if (comp) {
-				shape.addShapeSquaresToDrawnList();
-				return false;
-			}
-		}
-	}
-
-	if (newHeight <= HEIGHT) {
-		return true;
-	} else {
-		shape.addShapeSquaresToDrawnList();
-
-		return false;
-	}
-}
-
-function addToDrawnList(U) {
-	let Uy_top = U.topLeft[1];
-	if (!unitCoors[Uy_top]) {
-		unitCoors[Uy_top] = [];
-		unitCoors[Uy_top].push(U);
-	} else {
-		unitCoors[Uy_top].push(U);
-	}
-}
-
-function compareUnits(down, up) {
-	if (down.topLeft[0] == up.bottomLeft[0] && down.topLeft[1] == (up.bottomLeft[1]+PADDING) && down.topRight[0] == up.bottomRight[0] && down.topRight[1] == (up.bottomRight[1]+PADDING)) {
-		return true;
-	} else {
-		return false;
-	}
-}
-
-function overlapUnits(u1, u2) {
-	if (u1.topLeft[0] == u2.topLeft[0] && u1.topLeft[1] == u2.topLeft[1] && u1.topRight[0] == u2.topRight[0] && u1.topRight[1] == u2.topRight[1]) {
-		return true;
-	} else {
-		return false;
-	}
-}
-
-$(document).keydown(function(event) {
-	clearView();
-	var keyCode = event.which;
-	var last = shapes[shapes.length-1];
-	if(!last.keyDownHandler(keyCode)) {
-		clearInterval(lastShapeTimer);
-		loop();
-	}
-	drawView();
-});
+var tetris = new Tetris(context);
+tetris.loop();
