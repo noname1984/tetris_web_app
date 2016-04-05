@@ -1,10 +1,11 @@
 'use strict';
 
 class Shape {
-	constructor(state, numStates, unitArr) {
+	constructor(drawnSquares, state, numStates, unitArr) {
 		this.state = state;
 		this.numStates = numStates;
 		this.unitArr = unitArr;
+		this.drawnSquares = drawnSquares;
 	}
 
 	get state() {
@@ -58,27 +59,27 @@ class Shape {
 	keyDownHandler(keyCode) {
 
 		if (keyCode == 37) {	// left arrow
-			let testLeftResult = Tetris.testLeft(this);
+			let testLeftResult = this.testLeft();
 			if (testLeftResult) {
-				this.moveLeft();
+				this.moveShapeLeft();
 			}
 			return true;
 		} else if(keyCode == 38) {	// up arrow
-			if(this.upArrowHandler(x, y)) {
+			if(this.upArrowHandler()) {
 				return true;
 			} else {
 				return false;
 			}
 		} else if (keyCode == 39) {	// right arrow
-			let testRightResult = Tetris.testRight(this);
+			let testRightResult = this.testRight();
 			if (testRightResult) {
-				this.moveRight();
+				this.moveShapeRight();
 			}
 			return true;
 		} else if (keyCode == 40) {	// down arrow
-			let testResult = Tetris.testDown(this);
+			let testResult = this.testDown();
 			if (testResult) {
-				this.moveDown();
+				this.moveShapeDown();
 				return true;
 			} else {
 				return false;
@@ -86,29 +87,79 @@ class Shape {
 		}
 		console.log('x: ', this.x, ', y: ', this.y);
 	}
-
-
-	addShapeSquaresToDrawnList() {
-		for(var i = 0; i < this.unitArr.length; i++) {
-			addToDrawnList(this.unitArr[i]);
-		}
+	
+	moveShapeLeft() {
+		let self = this;
+		_.forEach(self.unitArr, function(val) {
+			val.moveLeft();
+		});
 	}
 
-	moveLeft() {
-		for (var i = 0; i < this.unitArr.length; i++) {
-			this.unitArr[i].moveLeft();
-		}
+	moveShapeRight() {
+		let self = this;
+		_.forEach(self.unitArr, function(val) {
+			val.moveRight();
+		});
 	}
 
-	moveRight() {
-		for (var i = 0; i < this.unitArr.length; i++) {
-			this.unitArr[i].moveRight();
-		}
+	moveShapeDown() {
+		let self = this;
+		_.forEach(self.unitArr, function(val) {
+			val.moveDown();
+		});
 	}
 
-	moveDown() {
-		for (var i = 0; i < this.unitArr.length; i++) {
-			this.unitArr[i].moveDown();
+	testLeft() {
+		let result = true;
+		let self = this;
+		_.forEach(self.unitArr, function(val) {
+			if (!val.canSquareMoveLeft()) {
+				result = false;
+				return false;
+			}
+		});
+		return result;
+	}
+
+	testRight() {
+		let result = true;
+		let self = this;
+		_.forEach(self.unitArr, function(val) {
+			if (!val.canSquareMoveRight()) {
+				result = false;
+				return false;
+			}
+		});
+		return result;
+	}
+
+	testDown() {
+		let result = true;
+		let self = this;
+		_.forEach(self.unitArr, function(val) {
+			if (!val.canSquareMoveDown()) {
+				result = false;
+				return false;
+			}
+		});
+		if (!result) {
+			let self = this;
+			_.forEach(self.unitArr, function(val) {
+				val.insertToDrawnSquares();
+			});
 		}
+		return result;
+	}
+
+	testRotate() {
+		let result = true;
+		let self = this;
+		_.forEach(self.unitArr, function(val) {
+			if (!val.testRotateSquare()) {
+				result = false;
+				return false;
+			}
+		});
+		return result;
 	}
 }

@@ -41,19 +41,21 @@ class TShape extends Shape {
 		this.state = 3;
 	}
 
-	upArrowHandler(x, y) {
+	upArrowHandler() {
 		if(this.state === 0) {
 			this.unitArr[0].updateCoors(this.unitArr[0].topLeft[0], this.unitArr[0].topLeft[1] + BASE_PLUS_PADDING);
 			this.unitArr[1].updateCoors(this.unitArr[1].topLeft[0] + BASE_PLUS_PADDING, this.unitArr[1].topLeft[1]);
 			this.unitArr[2].updateCoors(this.unitArr[2].topLeft[0] + BASE_PLUS_PADDING, this.unitArr[2].topLeft[1] + BASE_PLUS_PADDING);
 			this.unitArr[3].updateCoors(this.unitArr[3].topLeft[0] + BASE_PLUS_PADDING, this.unitArr[3].topLeft[1] + 2*BASE_PLUS_PADDING);
 			
-			let testResult = Tetris.testRotate(this, 'rotate');
+			let testResult = this.testRotate();
 			if (!testResult) {
 				this.unitArr[0].updateCoors(this.unitArr[0].topLeft[0], this.unitArr[0].topLeft[1]);
 				this.unitArr[1].updateCoors(this.unitArr[1].topLeft[0] + BASE_PLUS_PADDING, this.unitArr[1].topLeft[1]);
 				this.unitArr[2].updateCoors(this.unitArr[2].topLeft[0] + 2*BASE_PLUS_PADDING, this.unitArr[2].topLeft[1]);
 				this.unitArr[3].updateCoors(this.unitArr[3].topLeft[0] + BASE_PLUS_PADDING, this.unitArr[3].topLeft[1] + BASE_PLUS_PADDING);
+			} else {
+				this.state = 1;
 			}
 			return testResult;
 		} else if (this.state === 1) {
@@ -62,12 +64,14 @@ class TShape extends Shape {
 			this.unitArr[2].updateCoors(this.unitArr[2].topLeft[0] + BASE_PLUS_PADDING, this.unitArr[2].topLeft[1] + BASE_PLUS_PADDING);
 			this.unitArr[3].updateCoors(this.unitArr[3].topLeft[0] + 2*BASE_PLUS_PADDING, this.unitArr[3].topLeft[1] + BASE_PLUS_PADDING);
 			
-			let testResult = Tetris.testRotate(this, 'rotate');
+			let testResult = this.testRotate();
 			if (!testResult) {
 				this.unitArr[0].updateCoors(this.unitArr[0].topLeft[0], this.unitArr[0].topLeft[1] + BASE_PLUS_PADDING);
 				this.unitArr[1].updateCoors(this.unitArr[1].topLeft[0] + BASE_PLUS_PADDING, this.unitArr[1].topLeft[1]);
 				this.unitArr[2].updateCoors(this.unitArr[2].topLeft[0] + BASE_PLUS_PADDING, this.unitArr[2].topLeft[1] + BASE_PLUS_PADDING);
 				this.unitArr[3].updateCoors(this.unitArr[3].topLeft[0] + BASE_PLUS_PADDING, this.unitArr[3].topLeft[1] + 2*BASE_PLUS_PADDING);
+			} else {
+				this.state = 2;
 			}
 			return testResult;
 		} else if (this.state === 2) {
@@ -76,12 +80,14 @@ class TShape extends Shape {
 			this.unitArr[2].updateCoors(this.unitArr[2].topLeft[0], this.unitArr[2].topLeft[1] + 2*BASE_PLUS_PADDING);
 			this.unitArr[3].updateCoors(this.unitArr[3].topLeft[0] + BASE_PLUS_PADDING, this.unitArr[3].topLeft[1] + BASE_PLUS_PADDING);
 			
-			let testResult = Tetris.testRotate(this, 'rotate');
+			let testResult = this.testRotate();
 			if (!testResult) {
 				this.unitArr[0].updateCoors(this.unitArr[0].topLeft[0] + BASE_PLUS_PADDING, this.unitArr[0].topLeft[1]);
 				this.unitArr[1].updateCoors(this.unitArr[1].topLeft[0], this.unitArr[1].topLeft[1] + BASE_PLUS_PADDING);
 				this.unitArr[2].updateCoors(this.unitArr[2].topLeft[0] + BASE_PLUS_PADDING, this.unitArr[2].topLeft[1] + BASE_PLUS_PADDING);
 				this.unitArr[3].updateCoors(this.unitArr[3].topLeft[0] + 2*BASE_PLUS_PADDING, this.unitArr[3].topLeft[1] + BASE_PLUS_PADDING);
+			} else {
+				this.state = 3;
 			}
 			return testResult;
 		} else {
@@ -90,12 +96,14 @@ class TShape extends Shape {
 			this.unitArr[2].updateCoors(this.unitArr[2].topLeft[0] + 2*BASE_PLUS_PADDING, this.unitArr[2].topLeft[1]);
 			this.unitArr[3].updateCoors(this.unitArr[3].topLeft[0] + BASE_PLUS_PADDING, this.unitArr[3].topLeft[1] + BASE_PLUS_PADDING);
 			
-			let testResult = Tetris.testRotate(this, 'rotate');
+			let testResult = this.testRotate();
 			if (!testResult) {
 				this.unitArr[0].updateCoors(this.unitArr[0].topLeft[0], this.unitArr[0].topLeft[1]);
 				this.unitArr[1].updateCoors(this.unitArr[1].topLeft[0], this.unitArr[1].topLeft[1] + BASE_PLUS_PADDING);
 				this.unitArr[2].updateCoors(this.unitArr[2].topLeft[0], this.unitArr[2].topLeft[1] + 2*BASE_PLUS_PADDING);
 				this.unitArr[3].updateCoors(this.unitArr[3].topLeft[0] + BASE_PLUS_PADDING, this.unitArr[3].topLeft[1] + BASE_PLUS_PADDING);
+			} else {
+				this.state = 0;
 			}
 			return testResult;
 		}

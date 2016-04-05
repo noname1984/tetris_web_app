@@ -23,19 +23,21 @@ class LeftZShape extends Shape {
 		this.state = 0;
 	}
 
-	upArrowHandler(x, y) {
+	upArrowHandler() {
 		if (this.state === 0) {
 			this.unitArr[0].updateCoors(this.unitArr[0].topLeft[0], this.unitArr[0].topLeft[1] + BASE_PLUS_PADDING);
 			this.unitArr[1].updateCoors(this.unitArr[1].topLeft[0], this.unitArr[1].topLeft[1] + 2*BASE_PLUS_PADDING);
 			this.unitArr[2].updateCoors(this.unitArr[2].topLeft[0] + BASE_PLUS_PADDING, this.unitArr[2].topLeft[1]);
 			this.unitArr[3].updateCoors(this.unitArr[3].topLeft[0] + BASE_PLUS_PADDING, this.unitArr[3].topLeft[1] + BASE_PLUS_PADDING);
 			
-			let testResult = Tetris.testRotate(this, 'rotate');
+			let testResult = this.testRotate();
 			if (!testResult) {
 				this.unitArr[0].updateCoors(this.unitArr[0].topLeft[0], this.unitArr[0].topLeft[1]);
 				this.unitArr[1].updateCoors(this.unitArr[1].topLeft[0] + BASE_PLUS_PADDING, this.unitArr[1].topLeft[1]);
 				this.unitArr[2].updateCoors(this.unitArr[2].topLeft[0] + BASE_PLUS_PADDING, this.unitArr[2].topLeft[1] + BASE_PLUS_PADDING);
 				this.unitArr[3].updateCoors(this.unitArr[3].topLeft[0] + 2*BASE_PLUS_PADDING, this.unitArr[3].topLeft[1] + BASE_PLUS_PADDING);
+			} else {
+				this.state = 1;
 			}
 			return testResult;
 		} else {
@@ -44,12 +46,14 @@ class LeftZShape extends Shape {
 			this.unitArr[2].updateCoors(this.unitArr[2].topLeft[0] + BASE_PLUS_PADDING, this.unitArr[2].topLeft[1] + BASE_PLUS_PADDING);
 			this.unitArr[3].updateCoors(this.unitArr[3].topLeft[0] + 2*BASE_PLUS_PADDING, this.unitArr[3].topLeft[1] + BASE_PLUS_PADDING);
 			
-			let testResult = Tetris.testRotate(this, 'rotate');
+			let testResult = this.testRotate();
 			if (!testResult) {
 				this.unitArr[0].updateCoors(this.unitArr[0].topLeft[0], this.unitArr[0].topLeft[1] + BASE_PLUS_PADDING);
 				this.unitArr[1].updateCoors(this.unitArr[1].topLeft[0], this.unitArr[1].topLeft[1] + 2*BASE_PLUS_PADDING);
 				this.unitArr[2].updateCoors(this.unitArr[2].topLeft[0] + BASE_PLUS_PADDING, this.unitArr[2].topLeft[1]);
 				this.unitArr[3].updateCoors(this.unitArr[3].topLeft[0] + BASE_PLUS_PADDING, this.unitArr[3].topLeft[1] + BASE_PLUS_PADDING);
+			} else {
+				this.state = 0;
 			}
 			return testResult;
 		}
