@@ -1,4 +1,4 @@
-<!DOCTYPE html5>
+<!DOCTYPE html>
 <html>
 	<head>
 		<title>Tetris game application</title>
@@ -9,7 +9,27 @@
 		<div class='main-container'>
 			<section class='welcome-message'>
 			</section>
-			<canvas id='mainView' width="440" height="660" class='main-view'></canvas>
+			<section id="mainView" class="main-view">
+				<canvas id='tetrisBoard' width="440" height="660" class='tetris-board'></canvas>
+				<section class="menu">
+					<div class="score-container">
+						<div class="score-text basic-text">
+							Score:
+						</div>
+						<div id="scoreValue" class="score-value basic-text">0</div>
+					</div>
+					<div class="score-container">
+						<div class="score-text basic-text">
+							Level:
+						</div>
+						<div id="levelValue" class="score-value basic-text">1</div>
+					</div>
+					<div class="options">
+						<button id="pauseResume" class="pause-resume button">Pause</button>
+						<button id="newGame" class="new-game button">New Game</button>
+					</div>
+				</section>
+			</section>
 			<script type="text/javascript" src='lodash.js'></script>
 			<script type="text/javascript" src="config.js"></script>
 			<script type="text/javascript" src="UnitSquare.js"></script>

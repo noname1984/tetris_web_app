@@ -11,46 +11,6 @@ class UnitSquare {
 		this.drawnSquares = drawnSquares;
 	}
 
-	get topLeft() {
-		return this._topLeft;
-	}
-
-	set topLeft(val) {
-		this._topLeft = val;
-	}
-
-	get topRight() {
-		return this._topRight;
-	}
-
-	set topRight(val) {
-		this._topRight = val;
-	}
-
-	get bottomLeft() {
-		return this._bottomLeft;
-	}
-
-	set bottomLeft(val) {
-		this._bottomLeft = val;
-	}
-
-	get bottomRight() {
-		return this._bottomRight;
-	}
-
-	set bottomRight(val) {
-		this._bottomRight = val;
-	}
-
-	get color() {
-		return this._color;
-	}
-
-	set color(val) {
-		this._color = val;
-	}
-
 	updateCoors(x, y) {
 		this.topLeft = [x, y];
 		this.topRight = [x + BASE_SIZE, y];
@@ -91,11 +51,11 @@ class UnitSquare {
 	}
 
 	canSquareMoveRight() {
-		let x = this.topRight[0] + BASE_PLUS_PADDING;
+		let x = this.topLeft[0] + BASE_PLUS_PADDING;
 		if (x > WIDTH) {
 			return false;
 		} else {
-			let y = this.topRight[1];
+			let y = this.topLeft[1];
 			if (!this.drawnSquares[y]) {
 				return true;
 			} else {
@@ -148,10 +108,10 @@ class UnitSquare {
 		}
 	}
 
-	draw(x, y) {
+	draw() {
 		this.canvasContext.save();
 		this.canvasContext.strokeStyle = this.color;
-		this.canvasContext.translate(x, y);
+		this.canvasContext.translate(this.topLeft[0], this.topLeft[1]);
 		this.canvasContext.beginPath();
 		this.canvasContext.moveTo(0, 0);
 		this.canvasContext.lineTo(BASE_SIZE, 0);
@@ -171,5 +131,10 @@ class UnitSquare {
 		} else {
 			this.drawnSquares[y][x] = this;
 		}
+	}
+	
+	isSquareHidden() {
+		let y = this.topLeft[1];
+		return (y === START_Y) ? true : false;
 	}
 }

@@ -25,31 +25,10 @@ class Shape {
 	}
 	
 	draw() {
-		if (this.numStates == 4) {
-			switch(this.state) {
-				case 0:
-					this.drawDown();
-					break;
-				case 1:
-					this.drawLeft();
-					break;
-				case 2:
-					this.drawUp();
-					break;
-				case 3:
-					this.drawRight();
-					break;
-			}
-		} else if (this.numStates == 2) {
-			switch(this.state) {
-				case 0:
-					this.horizontal();
-					break;
-				case 1:
-					this.vertical();
-					break;
-			}
-		}
+		this.unitArr[0].draw();
+		this.unitArr[1].draw();
+		this.unitArr[2].draw();
+		this.unitArr[3].draw();
 	}
 
 	upArrowHandler() {
@@ -63,29 +42,70 @@ class Shape {
 			if (testLeftResult) {
 				this.moveShapeLeft();
 			}
-			return true;
+			return {drawnSquares: this.drawnSquares, result: 'true'};
 		} else if(keyCode == 38) {	// up arrow
-			if(this.upArrowHandler()) {
-				return true;
-			} else {
-				return false;
-			}
+			this.upArrowHandler();
+			return {drawnSquares: this.drawnSquares, result: 'true'};
 		} else if (keyCode == 39) {	// right arrow
 			let testRightResult = this.testRight();
 			if (testRightResult) {
 				this.moveShapeRight();
 			}
-			return true;
+			return {drawnSquares: this.drawnSquares, result: 'true'};
 		} else if (keyCode == 40) {	// down arrow
 			let testResult = this.testDown();
-			if (testResult) {
+			if (testResult === 'true') {
 				this.moveShapeDown();
-				return true;
-			} else {
-				return false;
+				return {drawnSquares: this.drawnSquares, result: 'true'};
+			} else if (testResult === 'false') {
+				let self = this;
+				let lowestY = 0;
+				let currentScore = parseInt(scoreElement.html());
+				let currentLevel = parseInt(levelElement.html());
+				_.forEach(this.unitArr, function (val) {
+					let y = val.topLeft[1];
+					if (lowestY < y) {
+						lowestY = y;
+					}
+					if (self.drawnSquares[y]) {
+						if (_.size(self.drawnSquares[y]) == 10) {
+							delete self.drawnSquares[y];
+							currentScore++;
+						}
+					}
+				});
+
+				scoreElement.html(currentScore);
+				if(parseInt(currentScore / 30) + 1 > currentLevel) {
+					levelElement.html(parseInt(currentScore/30) + 1);
+				}
+
+				let heights = _.keys(this.drawnSquares);
+				_.sortBy(heights);
+				let length = heights.length;
+				let currentExpectedY = MAX_Y;
+				let newDrawnSquares = {};
+				for(var i = length - 1; i >= 0; i--) {
+					let currentHeight = heights[i];
+					let rowSquares = this.drawnSquares[currentHeight];
+					if (currentHeight != currentExpectedY) {
+						_.forEach(rowSquares, function(val) {
+							val.topLeft[1] = currentExpectedY;
+							val.topRight[1] = currentExpectedY;
+							val.bottomLeft[1] = currentExpectedY + PADDING;
+							val.bottomRight[1] = currentExpectedY + PADDING;
+						});
+						delete this.drawnSquares[currentHeight];
+					}
+					newDrawnSquares[currentExpectedY] = rowSquares;
+					currentExpectedY = currentExpectedY - BASE_PLUS_PADDING;
+				}
+				this.drawnSquares = newDrawnSquares;
+				return {drawnSquares: this.drawnSquares, result: 'false'};
+			} else if (testResult === 'game-over') {
+				return {drawnSquares: this.drawnSquares, result: 'game-over'};
 			}
 		}
-		console.log('x: ', this.x, ', y: ', this.y);
 	}
 	
 	moveShapeLeft() {
@@ -134,16 +154,21 @@ class Shape {
 	}
 
 	testDown() {
-		let result = true;
+		let result = 'true';
 		let self = this;
 		_.forEach(self.unitArr, function(val) {
 			if (!val.canSquareMoveDown()) {
-				result = false;
+				result = 'false';
 				return false;
 			}
 		});
-		if (!result) {
-			let self = this;
+		if (result === 'false') {
+			_.forEach(self.unitArr, function (val) {
+				if (val.isSquareHidden()) {
+					result = 'game-over';
+				}
+			});
+
 			_.forEach(self.unitArr, function(val) {
 				val.insertToDrawnSquares();
 			});
